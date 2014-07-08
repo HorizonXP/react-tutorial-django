@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 // tutorial5.js
 
+var converter = new Showdown.converter();
 var Comment = React.createClass({
     render: function() {
         return (
@@ -8,7 +9,7 @@ var Comment = React.createClass({
                 <h2 className="commentAuthor">
                     {this.props.author}
                 </h2>
-                {this.props.children}
+                {converter.makeHtml(this.props.children.toString())}
             </div>
         );
     }
