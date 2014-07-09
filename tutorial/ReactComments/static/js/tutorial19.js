@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-// tutorial14.js
+// tutorial19.js
 
 var converter = new Showdown.converter();
 var Comment = React.createClass({
@@ -34,11 +34,24 @@ var CommentList = React.createClass({
 });
 
 var CommentForm = React.createClass({
+    handleSubmit: function() {
+        var author = this.refs.author.getDOMNode().value.trim();
+        var text = this.refs.text.getDOMNode().value.trim();
+        if (!text || !author) {
+            return false;
+        }
+        this.props.onCommentSubmit({author: author, text: text});
+        this.ref.author.getDOMNode().value = '';
+        this.ref.text.getDOMNode().value = '';
+        return false;
+    }, 
     render: function() {
         return (
-            <div className="commentForm">
-                Hello, world! I am a CommentForm.
-            </div>
+            <form className="commentForm" onSubmit={this.handleSubmit}>
+                <input type="text" ref="author" placeholder="Your name" />
+                <input type="text" ref="text" placeholder="Say something..." />
+                <input type="submit" value="Post" />
+            </form>
         );
     }
 });
@@ -48,6 +61,20 @@ var CommentBox = React.createClass({
         $.ajax({
             url: this.props.url,
             dataType: 'json',
+            success: function(data) {
+                this.setState({data: data});
+            }.bind(this),
+            error: function(xhr, status, err) {
+                console.error(this.props.url, status, err.toString());
+            }.bind(this)
+        });
+    },
+    handleCommentSubmit: function(comment) {
+        $.ajax({
+            url: this.props.url,
+            dataType: 'json',
+            type: 'POST',
+            data: comment,
             success: function(data) {
                 this.setState({data: data});
             }.bind(this),
@@ -67,8 +94,8 @@ var CommentBox = React.createClass({
         return (
             <div className="commentBox">
                 <h1>Comments</h1>
-                <CommentList data={this.state.data}/>
-                <CommentForm />
+                <CommentList data={this.state.data} />
+                <CommentForm onCommentSubmit={this.handleCommentSubmit} />
             </div>
         );
     }
