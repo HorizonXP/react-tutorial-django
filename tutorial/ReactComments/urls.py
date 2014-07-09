@@ -1,5 +1,5 @@
-from django.conf.urls import patterns, url
-from ReactComments import views
+from django.conf.urls import patterns, url, include
+from ReactComments import views, routers
 
 urlpatterns = patterns('',
     # Examples:
@@ -7,4 +7,6 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^$', views.HomePageView.as_view(), name='index'),
+    url(r'^api/v1/', include(routers.api_router.urls)),
+    url(r'^api/v1/auth/', include('rest_framework.urls', namespace='rest_framework'))
 )

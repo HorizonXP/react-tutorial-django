@@ -1,5 +1,5 @@
 /** @jsx React.DOM */
-// tutorial20.js
+// comments.js
 
 var converter = new Showdown.converter();
 var Comment = React.createClass({
@@ -104,6 +104,6 @@ var CommentBox = React.createClass({
     }
 });
 React.renderComponent(
-    <CommentBox url="/static/js/comments.json" pollInterval={2000}/>,
+    <CommentBox url="/api/v1/comments" pollInterval={2000}/>,
     document.getElementById('content')
 );
