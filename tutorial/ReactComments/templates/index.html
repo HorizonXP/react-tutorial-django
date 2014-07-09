@@ -1,10 +1,9 @@
-{% load static from staticfiles %}
+{% load compressed static %}
 <!-- index.html -->
 <html>
   <head>
     <title>Hello React</title>
     <script src="http://fb.me/react-0.10.0.js"></script>
-    <script src="http://fb.me/JSXTransformer-0.10.0.js"></script>
     <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
@@ -27,7 +26,7 @@
   </head>
   <body>
     <div id="content"></div>
-    <script type="text/jsx" src="{% static 'js/comments.js' %}"></script>
+    {% compressed_js 'comments' %}
   </body>
 </html>
 

@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'pipeline',
     'rest_framework',
     'ReactComments',
 )
@@ -82,6 +83,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles/'
 
 REST_FRAMEWORK = {
     # Use hyperlinked styles by default.
@@ -95,3 +97,20 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny'
     ]
 }
+
+STATICFILES_STORAGE = 'pipeline.storage.PipelineStorage'
+
+PIPELINE_JS = {
+    'comments': {
+        'source_filenames': (
+          'js/comments.jsx',
+        ),
+        'output_filename': 'js/comments.js',
+    }
+}
+
+PIPELINE_COMPILERS = (
+    'react.utils.pipeline.JSXCompiler',
+)
+
+PIPELINE_ENABLED = True
